@@ -1,0 +1,23 @@
+# Storage configuration.
+# type: SQLITE (default, zero setup — a local file) or MYSQL (for a shared/production DB).
+# Switching to MYSQL later does NOT require any code changes or data-loss: run the plugin's
+# `/skyblock migrate` command (see MIGRATION section in the README) to copy all data across.
+storage:
+  type: SQLITE
+
+  sqlite:
+    # File name, stored inside the plugin's data folder (plugins/SkyblockPlugin/)
+    file: database.db
+
+  mysql:
+    host: localhost
+    port: 3306
+    database: skyblock
+    username: root
+    password: ""
+    # Extra JDBC parameters appended to the connection string
+    params: "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+    pool:
+      maximumPoolSize: 10
+      minimumIdle: 2
+      connectionTimeoutMs: 10000

@@ -21,6 +21,13 @@ repositories {
 dependencies {
     // Spigot API matching Arclight's bundled version (MC 1.20.1)
     compileOnly 'org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT'
+
+    // Database layer: HikariCP connection pool + JDBC drivers.
+    // Shaded (bundled + relocated) into the plugin jar so no extra setup is needed.
+    implementation 'com.zaxxer:HikariCP:5.1.0'
+    implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
+    implementation 'com.mysql:mysql-connector-j:8.3.0'
+    implementation 'org.slf4j:slf4j-nop:2.0.9' // silence HikariCP's slf4j lookup warnings
 }
 
 def targetJavaVersion = 17
@@ -38,6 +45,9 @@ processResources {
 // shadowJar produces the final jar to drop into the server's plugins/ folder
 shadowJar {
     archiveClassifier.set('')
+    // Keep JDBC driver / SPI service files intact (don't relocate JDBC
+    // drivers — relocation can break their META-INF/services auto-registration).
+    mergeServiceFiles()
 }
 
 build {

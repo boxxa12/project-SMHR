@@ -7,4 +7,4 @@ description: Custom skyblock plugin
 commands:
   skyblock:
     description: Main skyblock command
-    usage: /skyblock
+    usage: "/skyblock [migrate]"
