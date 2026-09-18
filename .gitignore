@@ -1,0 +1,30 @@
+## Editors/OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+## Gradle
+/plugin/.gradle/
+/plugin/build/
+
+## Server runtime (regenerated on first start, don't commit)
+/server/mods/*.jar
+/server/world/
+/server/world_nether/
+/server/world_the_end/
+/server/logs/
+/server/crash-reports/
+/server/libraries/
+/server/.arclight/
+/server/plugins/*.jar
+/server/plugins/PluginMetrics/
+/server/*.log
+/server/eula.txt
+/server/ops.json
+/server/whitelist.json
+/server/banned-players.json
+/server/banned-ips.json
+/server/usercache.json
+/server/session.lock

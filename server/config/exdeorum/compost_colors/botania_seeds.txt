@@ -1,0 +1,17 @@
+// Compost colors for botania_seeds. You may add your own colors, change existing ones, or remove colors that aren't needed.
+black_mystical_flower_seed, #6b7f46
+blue_mystical_flower_seed, #658daa
+brown_mystical_flower_seed, #a59a2d
+cyan_mystical_flower_seed, #69ac7c
+gray_mystical_flower_seed, #7f9765
+green_mystical_flower_seed, #61b548
+light_blue_mystical_flower_seed, #70bbb9
+light_gray_mystical_flower_seed, #94ae7c
+lime_mystical_flower_seed, #6fd446
+magenta_mystical_flower_seed, #9a7680
+orange_mystical_flower_seed, #bcac34
+pink_mystical_flower_seed, #b9a466
+purple_mystical_flower_seed, #8e7d73
+red_mystical_flower_seed, #d2833a
+white_mystical_flower_seed, #9ed2a5
+yellow_mystical_flower_seed, #cdea4b

@@ -1,0 +1,14 @@
+// Compost colors for extendedae_plus. You may add your own colors, change existing ones, or remove colors that aren't needed.
+basic_core, #ffffff
+channel_card, #c5987f
+entity_speed_card, #ffe6eb
+extended_pattern_provider_expansion_card_plus, #be9073
+infinity_biginteger_cell, #9170e6
+infinity_core, #ebdeff
+mirror_pattern_binding_tool, #8da8d2
+oblivion_singularity, #3e8476
+quantum_storage_core, #f5eaff
+spatial_core, #fff7ff
+storage_core, #f7ffff
+ultimate_super_assembler_matrix_builder, #d7cded
+virtual_crafting_card, #c3987d

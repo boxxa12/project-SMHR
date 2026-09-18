@@ -1,0 +1,17 @@
+// Compost colors for industrialforegoingadditional. You may add your own colors, change existing ones, or remove colors that aren't needed.
+darkest_void_bucket, #868382
+dirty_mineral_water_bucket, #c9afa2
+efficiency_addon_tier_3, #97b4cd
+efficiency_addon_tier_4, #b1d9f1
+efficiency_addon_tier_5, #84bcd9
+netherite_gear, #442a2f
+plastic_elytra, #979798
+polished_amethyst_shard, #ffcfff
+polished_diamond, #c8ffff
+polished_emerald, #6fffbf
+processing_addon_tier_3, #93b1ca
+processing_addon_tier_4, #acd7ee
+processing_addon_tier_5, #80bbd6
+speed_addon_tier_3, #94b1ca
+speed_addon_tier_4, #aed7f0
+speed_addon_tier_5, #82bbd6

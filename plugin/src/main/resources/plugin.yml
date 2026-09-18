@@ -1,0 +1,10 @@
+name: SkyblockPlugin
+version: '${version}'
+main: com.yourname.skyblock.SkyblockPlugin
+api-version: '1.20'
+author: BBOOXXAA
+description: Custom skyblock plugin
+commands:
+  skyblock:
+    description: Main skyblock command
+    usage: /skyblock

@@ -1,0 +1,20 @@
+// Compost colors for botanicadds. You may add your own colors, change existing ones, or remove colors that aren't needed.
+aura_ring_gaia, #ffffff
+elven_lapis, #ff44ff
+flowers/apicaria, #d9ffa5
+flowers/energizera, #9b916b
+flowers/glaciflora, #ffffff
+flowers/necroidus, #47836b
+flowers/rainute, #c2ffff
+flowers/tempestea, #ffffff
+flowers/vibrantia, #1c5765
+gaia_shard, #ffffff
+gaiasteel_ingot, #ffb9bc
+gaiasteel_nugget, #c85258
+mana_lapis, #29ffff
+mana_ring_gaia, #a7a190
+mana_stealer_sword, #9ac8a8
+rune_energy, #f7fffa
+rune_tp, #fbe7ff
+sculk_petal, #145c6e
+tesseract_attuner, #ffffff

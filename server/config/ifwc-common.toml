@@ -1,0 +1,19 @@
+
+[general]
+	#Allow sneak + right-click to dismantle.
+	enableDismantle = true
+	#Put block in inventory first; drop on ground when full.
+	dismantleInventoryFirst = true
+	#Allow a wrench held in the off hand.
+	offhandAllow = true
+	#Block dismantling while powered by redstone.
+	redstoneLock = false
+	#Mod namespaces whose machines are dismantled.
+	targetModIds = ["industrialforegoing", "industrialforegoingsouls", "ifeu"]
+	#Blocks never dismantled. '#'=block tag, 'modid:*'=whole namespace, no prefix=exact block id.
+	blockBlacklist = []
+
+[wrench]
+	#Wrench items. '#' prefix = tag; no prefix = exact item id.
+	whitelist = ["#forge:tools/wrench", "#c:tools/wrench", "#forge:wrenches"]
+
