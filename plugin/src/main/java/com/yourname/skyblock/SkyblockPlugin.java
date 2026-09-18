@@ -1,12 +1,16 @@
 package com.yourname.skyblock;
 
+import com.yourname.skyblock.commands.IslandCommand;
 import com.yourname.skyblock.data.DatabaseManager;
 import com.yourname.skyblock.data.IslandDAO;
 import com.yourname.skyblock.data.MigrationService;
 import com.yourname.skyblock.data.PlayerDAO;
 import com.yourname.skyblock.data.QuestDAO;
+import com.yourname.skyblock.island.GridConfig;
+import com.yourname.skyblock.island.IslandManager;
 import com.yourname.skyblock.listeners.PlayerJoinListener;
 import com.yourname.skyblock.model.PlayerData;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,6 +25,7 @@ public final class SkyblockPlugin extends JavaPlugin {
     private IslandDAO islandDAO;
     private QuestDAO questDAO;
     private MigrationService migrationService;
+    private IslandManager islandManager;
 
     @Override
     public void onEnable() {
@@ -35,12 +40,32 @@ public final class SkyblockPlugin extends JavaPlugin {
             return;
         }
 
+        // Table creation happens off the main thread so a slow DB never stalls the
+        // server tick loop; the rest of onEnable() (commands/listeners) only runs
+        // once the schema is confirmed ready, back on the main thread.
+        databaseManager.initSchemaAsync(this)
+                .thenRun(() -> Bukkit.getScheduler().runTask(this, this::finishEnable))
+                .exceptionally(ex -> {
+                    getLogger().severe("Failed to initialize database schema: " + ex.getMessage());
+                    Bukkit.getScheduler().runTask(this, () -> getServer().getPluginManager().disablePlugin(this));
+                    return null;
+                });
+    }
+
+    private void finishEnable() {
         playerDAO = new PlayerDAO(databaseManager);
         islandDAO = new IslandDAO(databaseManager);
         questDAO = new QuestDAO(databaseManager);
         migrationService = new MigrationService(this);
 
+        GridConfig gridConfig = GridConfig.load(this);
+        islandManager = new IslandManager(this, islandDAO, playerDAO, gridConfig);
+
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, playerDAO), this);
+
+        IslandCommand islandCommand = new IslandCommand(this);
+        getCommand("island").setExecutor(islandCommand);
+        getCommand("island").setTabCompleter(islandCommand);
 
         getLogger().info("SkyblockPlugin enabled! Storage: " + databaseManager.getStorageType());
     }
@@ -57,6 +82,11 @@ public final class SkyblockPlugin extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!command.getName().equalsIgnoreCase("skyblock")) {
             return false;
+        }
+
+        if (playerDAO == null) {
+            sender.sendMessage("SkyblockPlugin is still starting up, try again in a moment.");
+            return true;
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("migrate")) {
@@ -113,5 +143,9 @@ public final class SkyblockPlugin extends JavaPlugin {
 
     public QuestDAO getQuestDAO() {
         return questDAO;
+    }
+
+    public IslandManager getIslandManager() {
+        return islandManager;
     }
 }

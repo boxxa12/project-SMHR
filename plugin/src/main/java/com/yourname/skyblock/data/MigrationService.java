@@ -37,7 +37,8 @@ public class MigrationService {
         }
 
         DatabaseManager target = new DatabaseManager(plugin);
-        target.connect(StorageType.MYSQL); // reads storage.mysql.* from config.yml, creates schema
+        target.connect(StorageType.MYSQL); // reads storage.mysql.* from config.yml
+        target.applySchemaBlocking(); // safe here: migrateToMysql() is only ever called from an async task
 
         try {
             PlayerDAO sourcePlayers = new PlayerDAO(source);

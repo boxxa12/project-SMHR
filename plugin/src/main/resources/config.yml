@@ -21,3 +21,42 @@ storage:
       maximumPoolSize: 10
       minimumIdle: 2
       connectionTimeoutMs: 10000
+
+# Grid System — defines the hub world and the world(s) islands are generated in.
+# Islands are placed on a fixed grid (one slot per island) inside each island-world,
+# so we never have to scan for free space: slot N is always at a deterministic (x, z).
+worlds:
+  # Shared spawn/lobby world. No island belongs here.
+  hub:
+    name: world
+    pvp: false
+    allow-build: false
+
+  # One or more worlds islands can be generated in. When "current" fills up
+  # (reaches max-islands-per-world), the plugin moves on to the next entry —
+  # this is how you scale to more islands than fit nicely in one world border.
+  islands:
+    - name: islands_1
+    - name: islands_2
+
+island:
+  # Distance between the center of one island grid slot and the next, on both X and Z.
+  # Must be large enough that island borders/plots never overlap or visually bleed
+  # into each other (protection radius below should be well under half of this).
+  spacing: 256
+
+  # Half-width of the plot generated per island, i.e. the protected build region is
+  # (center - size) to (center + size) on X/Z.
+  size: 64
+
+  # World Y level new islands are generated/centered at, and players are teleported to.
+  home-y: 100
+
+  # First island's grid slot is centered at (origin-x, home-y, origin-z); every
+  # subsequent island is offset from there by "spacing" along the grid.
+  origin-x: 0
+  origin-z: 0
+
+  # How many grid slots to fill in one island-world before moving to the next
+  # world listed under worlds.islands.
+  max-islands-per-world: 500

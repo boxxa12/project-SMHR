@@ -8,3 +8,18 @@ commands:
   skyblock:
     description: Main skyblock command
     usage: "/skyblock [migrate]"
+  island:
+    description: Manage your skyblock island
+    usage: "/island <create|delete|home>"
+    aliases: [is]
+
+permissions:
+  skyblock.island.create:
+    description: Allows creating an island
+    default: true
+  skyblock.island.delete:
+    description: Allows deleting your own island
+    default: true
+  skyblock.island.home:
+    description: Allows teleporting to your island
+    default: true

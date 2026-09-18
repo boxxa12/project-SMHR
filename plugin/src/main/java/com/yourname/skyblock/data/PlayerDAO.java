@@ -84,6 +84,16 @@ public class PlayerDAO {
         }
     }
 
+    /** Points a player's `island_id` column at the given island (or clears it if null). */
+    public void setIslandId(UUID uuid, UUID islandId) throws SQLException {
+        String sql = "UPDATE players SET island_id = ? WHERE uuid = ?";
+        try (Connection conn = db.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, islandId != null ? islandId.toString() : null);
+            ps.setString(2, uuid.toString());
+            ps.executeUpdate();
+        }
+    }
+
     private PlayerData map(ResultSet rs) throws SQLException {
         String islandIdStr = rs.getString("island_id");
         return new PlayerData(

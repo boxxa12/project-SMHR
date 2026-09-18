@@ -85,8 +85,32 @@ public class DatabaseManager {
         hikariConfig.setPoolName("SkyblockPlugin-Pool-" + storageType);
         this.dataSource = new HikariDataSource(hikariConfig);
 
-        applySchema();
         plugin.getLogger().info("Connected to " + storageType + " database.");
+    }
+
+    /**
+     * Runs schema.sql on a background thread so table creation never blocks the
+     * server's main thread / TPS, even if the DB is slow to respond (e.g. a remote
+     * MySQL server). The returned future completes on the SAME background thread —
+     * hop back to the main thread yourself (Bukkit.getScheduler().runTask(...))
+     * before touching any Bukkit API in the completion callback.
+     */
+    public java.util.concurrent.CompletableFuture<Void> initSchemaAsync(JavaPlugin schedulerPlugin) {
+        java.util.concurrent.CompletableFuture<Void> future = new java.util.concurrent.CompletableFuture<>();
+        schedulerPlugin.getServer().getScheduler().runTaskAsynchronously(schedulerPlugin, () -> {
+            try {
+                applySchema();
+                future.complete(null);
+            } catch (SQLException e) {
+                future.completeExceptionally(e);
+            }
+        });
+        return future;
+    }
+
+    /** Synchronous schema application — only call this from a thread that's already off the main thread. */
+    public void applySchemaBlocking() throws SQLException {
+        applySchema();
     }
 
     /** Executes schema.sql against the active connection to create tables if they don't exist. */
