@@ -98,9 +98,16 @@ public class IslandManager {
                     return;
                 }
 
-                // TODO: unlink members' player rows, delete island_members rows,
-                // delete the islands row, and clear/regenerate the world region.
-                // Left as a stub until the schema-cascade / world-reset strategy is decided.
+                UUID islandId = island.get().getId();
+
+                // Delete all island members linked to this island
+                islandDAO.deleteMembersByIsland(islandId);
+
+                // Unlink all players from this island
+                islandDAO.unlinkPlayersFromIsland(islandId);
+
+                // Delete the island record itself
+                islandDAO.deleteById(islandId);
 
                 future.complete(null);
             } catch (SQLException e) {

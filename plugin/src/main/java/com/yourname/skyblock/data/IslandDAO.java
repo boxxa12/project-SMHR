@@ -111,6 +111,30 @@ public class IslandDAO {
         }
     }
 
+    public void deleteMembersByIsland(UUID islandId) throws SQLException {
+        String sql = "DELETE FROM island_members WHERE island_id = ?";
+        try (Connection conn = db.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, islandId.toString());
+            ps.executeUpdate();
+        }
+    }
+
+    public void unlinkPlayersFromIsland(UUID islandId) throws SQLException {
+        String sql = "UPDATE players SET island_id = NULL WHERE island_id = ?";
+        try (Connection conn = db.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, islandId.toString());
+            ps.executeUpdate();
+        }
+    }
+
+    public void deleteById(UUID islandId) throws SQLException {
+        String sql = "DELETE FROM islands WHERE id = ?";
+        try (Connection conn = db.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, islandId.toString());
+            ps.executeUpdate();
+        }
+    }
+
     private IslandData map(ResultSet rs) throws SQLException {
         return new IslandData(
                 UUID.fromString(rs.getString("id")),
