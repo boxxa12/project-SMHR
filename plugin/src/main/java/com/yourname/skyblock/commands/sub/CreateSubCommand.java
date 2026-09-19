@@ -2,12 +2,14 @@ package com.yourname.skyblock.commands.sub;
 
 import com.yourname.skyblock.SkyblockPlugin;
 import com.yourname.skyblock.model.IslandData;
-import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/** `/island create` — reserves a grid slot and writes the DB row for a new island. */
+/** `/island create` — reserves a grid slot, writes the DB row, generates the platform, and teleports the player. */
 public class CreateSubCommand implements IslandSubCommand {
 
     private final SkyblockPlugin plugin;
@@ -40,9 +42,21 @@ public class CreateSubCommand implements IslandSubCommand {
     }
 
     private void onCreated(Player player, IslandData island) {
-        player.sendMessage(ChatColor.GREEN + "Your island has been created in world '" + island.getWorld() +
-                "' at (" + island.getCenterX() + ", " + island.getCenterY() + ", " + island.getCenterZ() + ")!");
-        // TODO: once world generation exists, teleport the player to their new island here.
+        World world = Bukkit.getWorld(island.getWorld());
+        if (world == null) {
+            player.sendMessage(ChatColor.RED + "Island world '" + island.getWorld() +
+                    "' failed to load. Contact an admin.");
+            return;
+        }
+
+        // Teleport the player to the center of their island.
+        Location home = new Location(world, island.getCenterX() + 0.5, island.getCenterY() + 2,
+                island.getCenterZ() + 0.5);
+        player.teleport(home);
+
+        player.sendMessage(ChatColor.GREEN + "Your island has been created! " +
+                "You're standing on your starter platform. Type " + ChatColor.YELLOW + "/island home" +
+                ChatColor.GREEN + " to return here later.");
     }
 
     private String rootMessage(Throwable ex) {

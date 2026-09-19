@@ -3,6 +3,7 @@ package com.yourname.skyblock.island;
 import com.yourname.skyblock.data.IslandDAO;
 import com.yourname.skyblock.data.PlayerDAO;
 import com.yourname.skyblock.model.IslandData;
+import com.yourname.skyblock.world.IslandGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
@@ -26,12 +27,14 @@ public class IslandManager {
     private final IslandDAO islandDAO;
     private final PlayerDAO playerDAO;
     private final GridConfig gridConfig;
+    private final IslandGenerator generator;
 
     public IslandManager(JavaPlugin plugin, IslandDAO islandDAO, PlayerDAO playerDAO, GridConfig gridConfig) {
         this.plugin = plugin;
         this.islandDAO = islandDAO;
         this.playerDAO = playerDAO;
         this.gridConfig = gridConfig;
+        this.generator = new IslandGenerator(plugin);
     }
 
     public GridConfig getGridConfig() {
@@ -45,12 +48,9 @@ public class IslandManager {
 
     /**
      * Creates a new island for the player: computes their grid slot, writes the
-     * `islands` row, adds them as OWNER in `island_members`, and links their
-     * player row to it. Does NOT yet generate any blocks in the world — that's
-     * the next piece of work (schematic paste / procedural starter platform).
-     *
-     * Returns a future so callers (commands) can chain teleport/message logic
-     * after the DB write completes, without blocking the main thread.
+     * `islands` row, adds them as OWNER in `island_members`, links their player row to it,
+     * and generates a starter platform. Returns a future so callers (commands) can chain
+     * teleport/message logic after both DB writes and world generation complete.
      */
     public CompletableFuture<IslandData> createIsland(UUID ownerUuid) {
         CompletableFuture<IslandData> future = new CompletableFuture<>();
@@ -71,11 +71,15 @@ public class IslandManager {
                 islandDAO.addMember(island.getId(), ownerUuid, "OWNER");
                 playerDAO.setIslandId(ownerUuid, island.getId());
 
-                // TODO: generate the starter island (schematic paste or procedural platform)
-                // at (gridSlot.world(), gridSlot.x(), gridConfig.getHomeY(), gridSlot.z())
-                // before the player is teleported there.
-
-                future.complete(island);
+                // Now generate the starter platform in the world (async, will chain back to main thread).
+                // Radius 2 = 5x5 platform (from -2 to +2 blocks from center)
+                generator.generateIslandAsync(gridSlot.world(), gridSlot.x(), gridConfig.getHomeY(),
+                        gridSlot.z(), 2, null)
+                        .thenRun(() -> future.complete(island))
+                        .exceptionally(ex -> {
+                            future.completeExceptionally(ex);
+                            return null;
+                        });
             } catch (SQLException e) {
                 future.completeExceptionally(e);
             }

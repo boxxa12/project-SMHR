@@ -10,6 +10,7 @@ import com.yourname.skyblock.island.GridConfig;
 import com.yourname.skyblock.island.IslandManager;
 import com.yourname.skyblock.listeners.PlayerJoinListener;
 import com.yourname.skyblock.model.PlayerData;
+import com.yourname.skyblock.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,6 +27,7 @@ public final class SkyblockPlugin extends JavaPlugin {
     private QuestDAO questDAO;
     private MigrationService migrationService;
     private IslandManager islandManager;
+    private WorldManager worldManager;
 
     @Override
     public void onEnable() {
@@ -59,7 +61,12 @@ public final class SkyblockPlugin extends JavaPlugin {
         migrationService = new MigrationService(this);
 
         GridConfig gridConfig = GridConfig.load(this);
+        worldManager = new WorldManager(this, gridConfig);
         islandManager = new IslandManager(this, islandDAO, playerDAO, gridConfig);
+
+        // Create/load all island worlds before registering commands/listeners.
+        worldManager.ensureIslandWorlds();
+        worldManager.ensureHubWorld();
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this, playerDAO), this);
 
