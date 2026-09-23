@@ -1,0 +1,14 @@
+{
+	version: 1
+	uuid: "283830e339d1486683722a5a8dc23bc6"
+	name: "Kod1K_O#283830e3"
+	lock: false
+	rewards_blocked: false
+	task_progress: { }
+	started: { }
+	completed: { }
+	repeatable: { }
+	completion_count: { }
+	claimed_rewards: { }
+	player_data: { }
+}

@@ -1,0 +1,15 @@
+{
+	id: "9d0ec056-ed04-44bf-9bd7-10ec0d2bb4b5"
+	type: "player"
+	player_name: "BehowLatud"
+	ranks: { }
+	properties: {
+		"ftbteams:display_name": "BehowLatud"
+		"ftbteams:description": ""
+		"ftbteams:color": "#59FBFF"
+		"ftbteams:free_to_join": 0b
+		"ftbteams:max_msg_history_size": 1000
+	}
+	message_history: [ ]
+	extra: { }
+}

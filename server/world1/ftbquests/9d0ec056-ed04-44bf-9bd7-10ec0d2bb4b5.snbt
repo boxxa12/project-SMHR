@@ -1,0 +1,14 @@
+{
+	version: 1
+	uuid: "9d0ec056ed0444bf9bd710ec0d2bb4b5"
+	name: "BehowLatud#9d0ec056"
+	lock: false
+	rewards_blocked: false
+	task_progress: { }
+	started: { }
+	completed: { }
+	repeatable: { }
+	completion_count: { }
+	claimed_rewards: { }
+	player_data: { }
+}

@@ -1,0 +1,22 @@
+{
+	id: "bca1d3b2-32bd-4c2c-afa0-4e23ad27b426"
+	type: "party"
+	owner: "9d0ec056-ed04-44bf-9bd7-10ec0d2bb4b5"
+	ranks: {
+		283830e3-39d1-4866-8372-2a5a8dc23bc6: "member"
+		9d0ec056-ed04-44bf-9bd7-10ec0d2bb4b5: "owner"
+	}
+	properties: {
+		"ftbteams:display_name": "12312412412"
+		"ftbteams:description": ""
+		"ftbteams:color": "#59FBFF"
+		"ftbteams:free_to_join": 0b
+		"ftbteams:max_msg_history_size": 1000
+	}
+	message_history: [
+		{ from: "00000000-0000-0000-0000-000000000000", date: 1789860165330L, text: "{\"color\":\"yellow\",\"translate\":\"ftbteams.message.joined\",\"with\":[{\"text\":\"BehowLatud\"}]}" }
+		{ from: "9d0ec056-ed04-44bf-9bd7-10ec0d2bb4b5", date: 1789860165342L, text: "{\"color\":\"green\",\"translate\":\"ftbteams.message.invited\",\"with\":[{\"color\":\"yellow\",\"text\":\"Kod1K_O\"}]}" }
+		{ from: "00000000-0000-0000-0000-000000000000", date: 1789860169198L, text: "{\"color\":\"green\",\"translate\":\"ftbteams.message.joined\",\"with\":[{\"text\":\"Kod1K_O\"}]}" }
+	]
+	extra: { }
+}
